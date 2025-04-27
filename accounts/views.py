@@ -3,18 +3,34 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.shortcuts import redirect
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
 
 # Create your views here.
 
-def login(request):
-    return render(request,'login.html')
+def userlogin(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
 
-def signup(request):
-    return render(request,'signup.html')
+        user = authenticate(request,username=username,password = password)
 
-def signupaccount(request):
-    if request.method == 'Post':
+        if user is not None:
+            login(request,user)
+           
+            return redirect('home')  # go to homepage if login is correct
+        else:
+            return render(request,'login.html',{'errorMessage9' :'Invalid username or password'})
+    else:
+        return render(request,'login.html')
+      
+
+def usersignup(request):
+    if request.method == "GET":
+        return render(request,'signup.html')
+    else:
         user = User.objects.create_user(request.POST["username"],request.POST["email"],request.POST['password'])
         user.save()
-        login(request,user)
-        return redirect('home')
+        return login(request)
+
+    
