@@ -1,36 +1,39 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.models import User
-from django.contrib.auth import login
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Session, Card, UserCardProgress
 
-# Create your views here.
+@login_required
+def session_list(request):
+    sessions = Session.objects.all()
+    return render(request, 'session_list.html', {'sessions': sessions})
 
-def userlogin(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
+@login_required
+def session_detail(request, session_id):
+    session = get_object_or_404(Session, id=session_id)
+    cards = Card.objects.filter(session=session)
+    # Fetch user's progress for all cards in this session
+    progress = {
+        p.card.id: {'status': p.status, 'vote': p.vote}
+        for p in UserCardProgress.objects.filter(user=request.user, session=session)
+    }
+    return render(request, 'session_detail.html', {
+        'session': session,
+        'cards': cards,
+        'progress': progress
+    })
 
-        user = authenticate(request,username=username,password = password)
+@login_required
+def submit_progress(request, session_id):
+    if request.method == 'POST':
+        card_id = request.POST.get('card_id')
+        status = request.POST.get('status')
+        vote = request.POST.get('vote') or None
+        card = get_object_or_404(Card, id=card_id)
+        UserCardProgress.objects.update_or_create(
+            user=request.user,
+            session_id=session_id,
+            card=card,
+            defaults={'status': status, 'vote': vote}
+        )
+    return redirect('session_detail', session_id=session_id)
 
-        if user is not None:
-            login(request,user)
-           
-            return redirect('home')  # go to homepage if login is correct
-        else:
-            return render(request,'login.html',{'errorMessage9' :'Invalid username or password'})
-    else:
-        return render(request,'login.html')
-      
-
-def usersignup(request):
-    if request.method == "GET":
-        return render(request,'signup.html')
-    else:
-        user = User.objects.create_user(request.POST["username"],request.POST["email"],request.POST['password'])
-        user.save()
-        return login(request)
-
-    
