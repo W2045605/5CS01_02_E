@@ -1,0 +1,10 @@
+{% extends 'voting/base.html' %}
+
+{% block content %}
+<h2>Votes for {{ session.name }}</h2>
+<ul>
+    {% for vote in votes %}
+        <li>{{ vote.user.username }} voted {{ vote.vote_status }} on {{ vote.card.card_name }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

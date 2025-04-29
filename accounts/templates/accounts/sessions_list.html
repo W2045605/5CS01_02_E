@@ -1,0 +1,10 @@
+{% extends 'voting/base.html' %}
+
+{% block content %}
+<h2>Available Sessions</h2>
+<ul>
+    {% for session in sessions %}
+        <li><a href="{% url 'vote_chart' session.id %}">{{ session.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

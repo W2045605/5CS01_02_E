@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sky Health Check</title>
+</head>
+<body>
+    <a href="{% url 'login' %}">Login</a> |
+    <a href="{% url 'register' %}">Register</a>
+    <hr>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
