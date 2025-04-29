@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Health Check Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-5">
+
+    <h1 class="mb-4">Team Health Check Results</h1>
+
+    <!-- Form for selecting session and team -->
+    <form method="post" class="row g-3 mb-4">
+        {% csrf_token %}
+        
+        <div class="col-md-5">
+            <label class="form-label">Select Session</label>
+            <select name="session" class="form-select" required>
+                <option value="">Choose...</option>
+                {% for session in sessions %}
+                    <option value="{{ session.id }}" {% if selected_session and session.id == selected_session.id %}selected{% endif %}>
+                        {{ session.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-5">
+            <label class="form-label">Select Team</label>
+            <select name="team" class="form-select" required>
+                <option value="">Choose...</option>
+                {% for team in teams %}
+                    <option value="{{ team.id }}" {% if selected_team and team.id == selected_team.id %}selected{% endif %}>
+                        {{ team.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Show Results</button>
+        </div>
+    </form>
+
+    <!-- Show results -->
+    {% if votes_summary %}
+        <h2 class="mb-3">Results for <strong>{{ selected_team.name }}</strong> — <em>{{ selected_session.name }}</em></h2>
+
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Health Card</th>
+                    <th style="background-color:lightgreen;">Green</th>
+                    <th style="background-color:khaki;">Amber</th>
+                    <th style="background-color:lightcoral;">Red</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for card, counts in votes_summary.items %}
+                    <tr>
+                        <td class="text-start">{{ card }}</td>
+                        <td>{{ counts.green }} ({{ counts.green_pct }}%)</td>
+                        <td>{{ counts.amber }} ({{ counts.amber_pct }}%)</td>
+                        <td>{{ counts.red }} ({{ counts.red_pct }}%)</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% elif selected_session and selected_team %}
+        <div class="alert alert-warning">No votes yet for this team and session.</div>
+    {% endif %}
+
+</body>
+</html>
