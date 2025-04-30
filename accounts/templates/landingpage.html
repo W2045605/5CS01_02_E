@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Landing Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color:rgb(255, 255, 255);
+            justify-content: center;
+            align-items: center;
+        }
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .action-buttons .btn {
+            margin: 15px;
+            height: 150px;
+            width: 360px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .top-buttons{
+            margin-left: 10px;
+        }
+
+        .header {
+            background-color: lavender;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid black;
+        }
+
+        .logo{
+            font-weight: bold;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+    <div class="header">
+        <div class="logo"><span>Sky</span></div>
+        <div class="top-buttons">
+          <a href = "{%url 'profile'%}" class="btn btn-outline-dark">Profile</a>
+          <a href ="{%url 'logout'%}" class="btn btn-danger">Logout</a>
+        </div>
+      </div>
+
+
+    <div class="main-content">
+        <h1>Landing Page</h1>
+        <h2>User Level: {{ accessLevel }}</h2>
+
+
+        {% if accessLevel == "Administrator"%}
+        <div class="action-buttons d-flex justify-content-center">
+            <a href = "/addCards" class="btn btn-outline-primary">Add/Delete Users</a>
+            <a href = "/managePermission" class="btn btn-outline-primary">Append Users Permission Level</a>
+        </div>
+        <div class="action-buttons d-flex justify-content-center">
+            <a href = "/viewCards" class="btn btn-outline-primary">View All Cards</a>
+            <a href = "/addCards" class="btn btn-outline-primary">Add/Delete Cards</a>
+        </div>
+
+        {% elif accessLevel == "Engineer"%}
+        <div class="action-buttons d-flex justify-content-center">
+            <a href = "/viewCards" class="btn btn-outline-primary">View Team Cards</a>
+            <a href = "/addCards" class="btn btn-outline-primary">Add/Delete Cards</a>
+        </div>
+
+        {% elif accessLevel == "Team Leader"%}
+        <div class="action-buttons d-flex justify-content-center">
+            <a href = "/viewCards" class="btn btn-outline-primary">View Team Cards</a>
+            <a href = "/addCards" class="btn btn-outline-primary">Add/Delete Cards</a>
+        </div>
+        <div class="action-buttons d-flex justify-content-center">
+            <a href = "/teamInfo" class="btn btn-outline-primary">View Team Info</a>
+        </div>
+
+        {% elif accessLevel == "Department Leader"%}
+        <div class="action-buttons d-flex justify-content-center">
+            <a href = "/teamInfo" class="btn btn-outline-primary">View All Teams and Cards</a>
+            <a href = "/departmentSummary" class="btn btn-outline-primary">Other Departments Summary</a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</body>
+</html>
