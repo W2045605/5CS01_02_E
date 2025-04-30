@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# ----------------------------
 # Session Model
+# ----------------------------
 class Session(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField()
@@ -10,7 +12,9 @@ class Session(models.Model):
     def __str__(self):
         return self.name
 
+# ----------------------------
 # HealthCard Model
+# ----------------------------
 class HealthCard(models.Model):
     card_name = models.CharField(max_length=100)
     description = models.TextField()
@@ -18,7 +22,9 @@ class HealthCard(models.Model):
     def __str__(self):
         return self.card_name
 
+# ----------------------------
 # Vote Model
+# ----------------------------
 VOTE_CHOICES = [
     ('green', 'Green'),
     ('amber', 'Amber'),
@@ -33,9 +39,11 @@ class Vote(models.Model):
     feedback = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.card.card_name} - {self.vote_status}"
+        return f"{self.user.username} voted {self.vote_status} on {self.card.card_name}"
 
-# UserProfile Model (for Task 4)
+# ----------------------------
+# UserProfile Model
+# ----------------------------
 ROLE_CHOICES = [
     ('engineer', 'Engineer'),
     ('team_leader', 'Team Leader'),
@@ -46,8 +54,8 @@ ROLE_CHOICES = [
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     full_name = models.CharField(max_length=100)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     team_id = models.IntegerField(null=True, blank=True)
     dept_id = models.IntegerField(null=True, blank=True)
     join_date = models.DateField(null=True, blank=True)
