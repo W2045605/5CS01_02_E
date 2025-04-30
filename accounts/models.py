@@ -13,7 +13,7 @@ class Session(models.Model):
         return self.name
 
 # ----------------------------
-# HealthCard Model
+# HealthCard Model (formerly just Card)
 # ----------------------------
 class HealthCard(models.Model):
     card_name = models.CharField(max_length=100)
@@ -23,7 +23,7 @@ class HealthCard(models.Model):
         return self.card_name
 
 # ----------------------------
-# Vote Model
+# Vote Model (User progress and voting)
 # ----------------------------
 VOTE_CHOICES = [
     ('green', 'Green'),
@@ -40,6 +40,28 @@ class Vote(models.Model):
 
     def __str__(self):
         return f"{self.user.username} voted {self.vote_status} on {self.card.card_name}"
+
+# ----------------------------
+# UserCardProgress (Separate from Vote for tracking progress)
+# ----------------------------
+STATUS_CHOICES = [
+    ('not_started', 'Not Started'),
+    ('in_progress', 'In Progress'),
+    ('completed', 'Completed'),
+]
+
+class UserCardProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    card = models.ForeignKey(HealthCard, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
+    timestamp = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'session', 'card')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.card.card_name} ({self.status})"
 
 # ----------------------------
 # UserProfile Model

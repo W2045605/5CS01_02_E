@@ -18,10 +18,9 @@ from django.urls import path
 from accounts import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.userlogin, name='login'),
-    path('logout/', views.userlogout, name='logout'),
-    path('login/', views.userlogin, name='login'),
-    path('signup/', views.usersignup, name='signup'),
-    path('profile/', views.profile, name='profile'),
+    path('admin/', admin.site.urls),  
+    path('', views.userlogin, name='login'),  
+    path('logout/', views.userlogout, name='logout'),  
+    path('signup/', views.usersignup, name='signup'),  
+    path('profile/', views.profile, name='profile'),  
 ]
