@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Session: {{ session.title }}</h1>
+<h1>Session: {{ session.name }}</h1>
 
 <table>
   <thead>
@@ -15,7 +15,7 @@
   <tbody>
     {% for progress in progress_list %}
     <tr>
-      <td>{{ progress.card.title }}</td>
+      <td>{{ progress.card.card_name }}</td>
       <td>{{ progress.card.description }}</td>
       <td>{{ progress.status }}</td>
       <td>{{ progress.vote|default:"-" }}</td>
@@ -24,3 +24,4 @@
   </tbody>
 </table>
 {% endblock %}
+
