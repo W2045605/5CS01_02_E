@@ -1,11 +1,11 @@
-from django.db import models
-<<<<<<< HEAD
-from django.core.validators import MinValueValidator, MaxValueValidator
-=======
-from django.contrib.auth.models import User
->>>>>>> 1557ccb5bd7588f8001811d0b15a85c5d3b6a1bb
 
-# Session Model
+from django.db import models
+
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
 class Session(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField()
@@ -14,7 +14,6 @@ class Session(models.Model):
     def __str__(self):
         return self.name
 
-# HealthCard Model
 class HealthCard(models.Model):
     card_name = models.CharField(max_length=100)
     description = models.TextField()
@@ -22,7 +21,6 @@ class HealthCard(models.Model):
     def __str__(self):
         return self.card_name
 
-# Vote Model
 VOTE_CHOICES = [
     ('green', 'Green'),
     ('amber', 'Amber'),
@@ -39,7 +37,6 @@ class Vote(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.card.card_name} - {self.vote_status}"
 
-# UserProfile Model (for Task 4)
 ROLE_CHOICES = [
     ('engineer', 'Engineer'),
     ('team_leader', 'Team Leader'),
@@ -58,3 +55,4 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.full_name
+
