@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Available Sessions</h1>
+<ul>
+  {% for session in sessions %}
+    <li>
+      <a href="{% url 'session_detail' session.id %}">{{ session.title }}</a>
+    </li>
+  {% empty %}
+    <li>No sessions available.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

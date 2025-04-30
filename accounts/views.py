@@ -8,9 +8,6 @@ from django.utils import timezone
 from .models import UserProfile
 from .forms import RoleUpdateForm
 
-# ----------------------------
-# Registration & Login
-# ----------------------------
 
 def register_view(request):
     if request.method == 'POST':
@@ -72,9 +69,6 @@ def logout_view(request):
     return redirect('login')
 
 
-# ----------------------------
-# User Management
-# ----------------------------
 
 @login_required
 def user_list(request):
@@ -98,9 +92,7 @@ def edit_role(request, user_id):
     return render(request, 'accounts/edit_role.html', {'form': form, 'profile': profile})
 
 
-# ----------------------------
-# Profile & Landing
-# ----------------------------
+
 
 @login_required
 def profile(request):
@@ -114,7 +106,7 @@ def profile(request):
     user.email = request.POST['email']
     user.save()
 
-    # Team group assignment
+    
     teamnumber = request.POST['teamnumber']
     old_group = next((g for g in user.groups.all() if g.name.startswith("Team")), None)
     new_group_name = f"Team{teamnumber}"
@@ -155,9 +147,7 @@ def dashboard(request):
         return redirect('login')
 
 
-# ----------------------------
-# Custom Signup with Roles
-# ----------------------------
+
 
 def usersignup(request):
     if request.method == 'POST':

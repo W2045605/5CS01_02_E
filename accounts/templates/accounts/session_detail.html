@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Session: {{ session.title }}</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Card Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Vote</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for progress in progress_list %}
+    <tr>
+      <td>{{ progress.card.title }}</td>
+      <td>{{ progress.card.description }}</td>
+      <td>{{ progress.status }}</td>
+      <td>{{ progress.vote|default:"-" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

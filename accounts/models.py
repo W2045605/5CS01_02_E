@@ -1,9 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# ----------------------------
-# Session Model
-# ----------------------------
+
 class Session(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField()
@@ -12,9 +10,7 @@ class Session(models.Model):
     def __str__(self):
         return self.name
 
-# ----------------------------
-# HealthCard Model (formerly just Card)
-# ----------------------------
+
 class HealthCard(models.Model):
     card_name = models.CharField(max_length=100)
     description = models.TextField()
@@ -22,9 +18,7 @@ class HealthCard(models.Model):
     def __str__(self):
         return self.card_name
 
-# ----------------------------
-# Vote Model (User progress and voting)
-# ----------------------------
+
 VOTE_CHOICES = [
     ('green', 'Green'),
     ('amber', 'Amber'),
@@ -41,9 +35,7 @@ class Vote(models.Model):
     def __str__(self):
         return f"{self.user.username} voted {self.vote_status} on {self.card.card_name}"
 
-# ----------------------------
-# UserCardProgress (Separate from Vote for tracking progress)
-# ----------------------------
+
 STATUS_CHOICES = [
     ('not_started', 'Not Started'),
     ('in_progress', 'In Progress'),
@@ -63,9 +55,7 @@ class UserCardProgress(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.card.card_name} ({self.status})"
 
-# ----------------------------
-# UserProfile Model
-# ----------------------------
+
 ROLE_CHOICES = [
     ('engineer', 'Engineer'),
     ('team_leader', 'Team Leader'),
