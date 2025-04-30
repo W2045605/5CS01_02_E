@@ -2,25 +2,25 @@ from django.shortcuts import render
 from .models import Team, Session, Vote, HealthCard
 
 def team_results(request):
-    # Get all sessions and teams to show in dropdowns
+   
     sessions = Session.objects.all()
     teams = Team.objects.all()
 
-    # Variables for the selected session/team and vote summary
+    
     votes_summary = {}
     selected_session = None
     selected_team = None
 
-    # If the user submitted the form (POST request)
+    
     if request.method == 'POST':
         session_id = request.POST.get('session')
         team_id = request.POST.get('team')
 
-        # Get selected session and team objects from DB
+       
         selected_session = Session.objects.get(id=session_id)
         selected_team = Team.objects.get(id=team_id)
 
-        # Get all votes for that session and team
+
         votes = Vote.objects.filter(session=selected_session, team=selected_team)
 
         total_votes = votes.count()
