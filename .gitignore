@@ -1,0 +1,19 @@
+# Python
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+
+# VS Code settings
+.vscode/
+
+# Django SQLite database
+db.sqlite3
+
+# Environment files
+.env
+
+# OS Files
+.DS_Store
+Thumbs.db
